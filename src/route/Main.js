@@ -93,13 +93,15 @@ const comma = (number) => { // 가격에 , 붙이기.
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
-function Korean_name (name, coin) {
+function Korean_name (name, coin) { // 원화 마켓의 영어이름, 한국이름을 뽑음.
     const [loading, setLoading] = useState(null);
     const [krw_name, setKrw_name] = useState();
 
     const rename = () => {
         if(coin){
-            // console.log(coin)
+            // name에는 KRW와 BTC, USDT등이 있음. 그렇기에 KRW만 남기기 위함.
+            // coin을 비교대상으로 두어 KRW만 뽑음.
+            // 코드분석이 필요함. reduce와 some에대해 더 공부할 것.
             setKrw_name(name.reduce(
                 (result, item) =>
                 coin.some(el => el.market === item.market)
@@ -121,10 +123,24 @@ function Korean_name (name, coin) {
     return { krw_name, loading}; 
 } 
 
-// function Arrchange (krw_name, coin) {
-//     const [arr, setArr] = useState([]);
+function Arrchange (krw_name, coin) { // 원화이름이랑, price랑 합치기.
+    const [ coin_state, setCoin_State ] = useState();
+    
+    const arr = () =>{
+        if (krw_name){
+            setCoin_State(krw_name.map(_a => {
+                const foundB = coin.find(_b => _a.market===_b.market)
+                return foundB ? {..._a,...foundB} : _a
+            }))
+        }
+    }
+    
+    useEffect(() => {
+        arr();
+    }, [krw_name])
 
-// }
+    return { coin_state };
+}
 
 const Main = () => {
     // 1번째 api 받아오기 code: 93~100
@@ -141,23 +157,29 @@ const Main = () => {
 
     // coin_section.map((e) => e)를 통해 받아온 api의 원화마켓명을 모두 붙인 후 받아오기. 
     const upbit_url = upbit_Link+coin_section.map((e) => e);
-
     const { coin, loading2, error2 } = useEdit(upbit_url);
 
     // 원화 마켓의 영어이름, 한국이름을 뽑음.
     const { krw_name, loading } = Korean_name(name, coin);
-
-
+    
+    // 원화 마켓의 영어이름, 한국이름인 krw_name 과 코인의 가격 및 정보를 갖고있는 coin을 market 기준으로 병합.
+    const { coin_state } = Arrchange(krw_name, coin);
 
     // {krw_name ? console.log(krw_name) : console.log("happy")}
+    // const { arr , setArr } = useState();
+    
+    // setArr(krw_name.map(_a => {
+    //     const foundB = coin.find(_b => _a.market===_b.market)
+    //     return foundB ? {..._a,...foundB} : _a
+    // }))
 
+    // console.log(c);
+    // console.log(coin_state);
     // if(krw_name) {
-    //     let res = 
+    //     console.log(krw_name);
     // } else {
     //     console.log("happy");
     // }
-
-    
 
     return (
         <div className="App">
@@ -167,9 +189,9 @@ const Main = () => {
             {!loading1 && name && <li>{name.map((e) => e.market)}</li>} */}
             {/* <h1>{coin.map((e) => e.change)}</h1> */}
             {/* {!loading2 && coin && coin.map((e) => <li>{e.market}{e.trade_price}</li>)} */}
-            {!krw_name ? 
+            {!coin_state ? 
             (<div className="Loading_div">Loding</div>) : 
-            (<div>{krw_name.map((e) => <li key={coin.id}>{e.market}</li>)}</div>)}
+            (<div>{coin_state.map((e) => <li key={coin_state.id}>{e.market}, {e.korean_name}, {comma(e.trade_price)}</li>)}</div>)}
             {/* (<div>{coin.map((e) => <li key={coin.id}>{e.market}, {comma(e.trade_price)}</li>)}</div>)} */}
 
         </div>
