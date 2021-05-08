@@ -1,6 +1,7 @@
 import React, { useState, useEffect, forwardRef } from "react";
 import "./Coin_Chart.css";
 import MaterialTable from "material-table";
+import Chart from "./Chart";
 
 // material-Table icon 꺠짐 해결
 import AddBox from '@material-ui/icons/AddBox';
@@ -72,7 +73,10 @@ const Test = ({coin_state}) => {
                 chage_price: `${(item.signed_change_rate*100).toFixed(2)}%  (${comma(item.signed_change_price)}원)`, 
                 acc_trade_price_24h: `${comma((item.acc_trade_price_24h).toFixed(0))}원`,
                 highest_52_week_price: `${comma((item.highest_52_week_price).toFixed(0))}원`,
-                lowest_52_week_price: `${comma((item.lowest_52_week_price).toFixed(0))}원`
+                lowest_52_week_price: `${comma((item.lowest_52_week_price).toFixed(0))}원`,
+                highest_52_week_date: item.highest_52_week_date,
+                lowest_52_week_date: item.lowest_52_week_date,
+                trade_date: (item.trade_date).replace(/(\d{4})(\d{2})(\d{2})/g, '$1-$2-$3')
               }
             ],
             []
@@ -89,10 +93,10 @@ const Test = ({coin_state}) => {
 
 const Coin_Chart = ( {coin_state} ) => {
     const [selectedRow, setSelectedRow] = useState(null);
-    console.log(coin_state);
+    // console.log(coin_state);
     const { tableCoin } = Test({ coin_state });
     
-    console.log(tableCoin);
+    // console.log(tableCoin);
 
 
     return (
@@ -138,8 +142,17 @@ const Coin_Chart = ( {coin_state} ) => {
             }}
             detailPanel={rowData => { // 디테일 판낼 만들기.
                 return (
-                    <div>
-                        <h1>52주 최고가: {rowData.highest_52_week_price}</h1>
+                    <div className="chart">
+                        <h1> 오늘날짜: {rowData.trade_date}</h1>
+                        <Chart 
+                        name={rowData.krw_name}
+                        high={rowData.highest_52_week_price} 
+                        price={rowData.price} 
+                        low={rowData.lowest_52_week_price}
+                        highdate={rowData.highest_52_week_date}
+                        lowdate={rowData.lowest_52_week_date}
+                        today={rowData.trade_date}
+                        />
                     </div>
                 )
               }}

@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 // import { Link } from "react-router-dom";
 import Coin_Chart from "../components/Coin_Chart";
-import { Table, TableHead, TableBody, TableCell, TableRow } from '@material-ui/core';
-import Coin_index from "../components/Coin_index";
 
 
 function useFetch(url) { // 1번째 api 호출하기.
@@ -186,7 +184,6 @@ const Main = () => {
             {!coin_state ? 
             (<div className="Loading_div">Loding</div>) : 
             (<div>
-                {console.log(coin_state)}
                 <Coin_Chart coin_state={coin_state} />
                 {/* {coin_state.map(e => (
                     

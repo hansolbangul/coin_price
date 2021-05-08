@@ -17,3 +17,7 @@
 .MuiTableRow-root:hover { 
     background: hsl(0, 3%, 93%) !important 
 }
+
+.chart {
+    text-align: center;
+}
