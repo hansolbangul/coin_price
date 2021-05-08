@@ -1,5 +1,10 @@
-import { lazy, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
+// import { Link } from "react-router-dom";
+import Coin_Chart from "../components/Coin_Chart";
+import { Table, TableHead, TableBody, TableCell, TableRow } from '@material-ui/core';
+import Coin_index from "../components/Coin_index";
+
 
 function useFetch(url) { // 1번째 api 호출하기.
     const [name, setname] = useState(null);
@@ -89,9 +94,7 @@ function useEdit(url) { // 2번째 api 받아오기
     return { coin, loading2, error2 };
 }
 
-const comma = (number) => { // 가격에 , 붙이기.
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-}
+
 
 function Korean_name (name, coin) { // 원화 마켓의 영어이름, 한국이름을 뽑음.
     const [loading, setLoading] = useState(null);
@@ -165,15 +168,6 @@ const Main = () => {
     // 원화 마켓의 영어이름, 한국이름인 krw_name 과 코인의 가격 및 정보를 갖고있는 coin을 market 기준으로 병합.
     const { coin_state } = Arrchange(krw_name, coin);
 
-    // {krw_name ? console.log(krw_name) : console.log("happy")}
-    // const { arr , setArr } = useState();
-    
-    // setArr(krw_name.map(_a => {
-    //     const foundB = coin.find(_b => _a.market===_b.market)
-    //     return foundB ? {..._a,...foundB} : _a
-    // }))
-
-    // console.log(c);
     // console.log(coin_state);
     // if(krw_name) {
     //     console.log(krw_name);
@@ -191,9 +185,14 @@ const Main = () => {
             {/* {!loading2 && coin && coin.map((e) => <li>{e.market}{e.trade_price}</li>)} */}
             {!coin_state ? 
             (<div className="Loading_div">Loding</div>) : 
-            (<div>{coin_state.map((e) => <li key={coin_state.id}>{e.market}, {e.korean_name}, {comma(e.trade_price)}</li>)}</div>)}
-            {/* (<div>{coin.map((e) => <li key={coin.id}>{e.market}, {comma(e.trade_price)}</li>)}</div>)} */}
-
+            (<div>
+                {console.log(coin_state)}
+                <Coin_Chart coin_state={coin_state} />
+                {/* {coin_state.map(e => (
+                    
+                ))} */}
+            </div>
+            )}
         </div>
     );
 }
