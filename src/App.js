@@ -10,7 +10,7 @@ const App = () => {
   return (
     <HashRouter>
       <Route path="/" exact={true} component={Main} />
-      <Route path="/coin_info/:market" component={Coin_Info} />
+      <Route path="/:market" component={Coin_Info} />
     </HashRouter>
   )
 }

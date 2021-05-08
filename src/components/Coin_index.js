@@ -18,7 +18,7 @@ const Coin_index = ( {market, korean_name, signed_change_price, trade_price, sig
             >
             {korean_name} ({market})</Link></TableCell>
             <TableCell>{comma(trade_price)}원</TableCell>
-            <TableCell>{signed_change_rate.toFixed(3)} ({comma(signed_change_price)}원)</TableCell> 
+            <TableCell>{(signed_change_rate*100).toFixed(2)}% ({comma(signed_change_price)}원)</TableCell> 
             <TableCell>{comma(acc_trade_price_24h.toFixed(0))}원</TableCell>
         </TableRow>
     )

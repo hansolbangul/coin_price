@@ -2,3 +2,18 @@
     color: black;
     text-decoration: none; 
 }
+
+/* .App .a{
+    href
+} */
+
+.App {
+    width: 75%;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.MuiTableRow-root:hover { 
+    background: hsl(0, 3%, 93%) !important 
+}
