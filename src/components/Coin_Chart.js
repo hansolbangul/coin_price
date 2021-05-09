@@ -2,6 +2,7 @@ import React, { useState, useEffect, forwardRef } from "react";
 import "./Coin_Chart.css";
 import MaterialTable from "material-table";
 import Chart from "./Chart";
+import axios from "axios";
 
 // material-Table icon 꺠짐 해결
 import AddBox from '@material-ui/icons/AddBox';
@@ -42,8 +43,7 @@ const tableIcons = {
     ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
   };
 
-
-  const comma = (number) => { // 가격에 , 붙이기.
+const comma = (number) => { // 가격에 , 붙이기.
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
@@ -76,7 +76,8 @@ const Test = ({coin_state}) => {
                 lowest_52_week_price: `${comma((item.lowest_52_week_price).toFixed(0))}원`,
                 highest_52_week_date: item.highest_52_week_date,
                 lowest_52_week_date: item.lowest_52_week_date,
-                trade_date: (item.trade_date).replace(/(\d{4})(\d{2})(\d{2})/g, '$1-$2-$3')
+                trade_date: (item.trade_date).replace(/(\d{4})(\d{2})(\d{2})/g, '$1-$2-$3'),
+                market: item.market
               }
             ],
             []
@@ -135,7 +136,11 @@ const Coin_Chart = ( {coin_state} ) => {
             // rowStyle: rowData => ({
             //     backgroundColor: (selectedRow === rowData.tableData.id) ? '#EEE' : '#FFF'}), // 클릭 -> 색 변경
             paging:false,
-            sorting:true
+            sorting:true,
+            headerStyle: { 
+              position: 'sticky', top: 0
+            },
+            maxBodyHeight: window.innerHeight - 265
           }}
           localization={
               { toolbar: { searchPlaceholder: '코인 명' } 
@@ -145,13 +150,7 @@ const Coin_Chart = ( {coin_state} ) => {
                     <div className="chart">
                         <h1> 오늘날짜: {rowData.trade_date}</h1>
                         <Chart 
-                        name={rowData.krw_name}
-                        high={rowData.highest_52_week_price} 
-                        price={rowData.price} 
-                        low={rowData.lowest_52_week_price}
-                        highdate={rowData.highest_52_week_date}
-                        lowdate={rowData.lowest_52_week_date}
-                        today={rowData.trade_date}
+                        candle={rowData.market}
                         />
                     </div>
                 )
