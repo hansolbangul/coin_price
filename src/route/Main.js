@@ -175,7 +175,7 @@ const Main = () => {
 
     return (
         <div className="App">
-            <h1>Coin</h1>
+            <h1>코인이 또...</h1>
             {/* {loading1 && <span>loading1 your cat</span>}
             {!loading1 && error1 && <span>{error1}</span>}
             {!loading1 && name && <li>{name.map((e) => e.market)}</li>} */}

@@ -101,7 +101,7 @@ const Coin_Chart = ( {coin_state} ) => {
 
     return (
         <div className="App">
-      <h1>Demo</h1>
+      {/* <h1>Demo</h1> */}
       <div>
         <MaterialTable
         icons={tableIcons}
@@ -128,7 +128,7 @@ const Coin_Chart = ( {coin_state} ) => {
           ]
         }
           data={tableCoin.map((e) => e)} // 되는 코드
-          title="Coin"
+          title="upbit_coin_price"
         //   onRowClick={((evt, selectedRow) => setSelectedRow(selectedRow.tableData.id))} // 클릭 -> 색 변경
           
           options={{
